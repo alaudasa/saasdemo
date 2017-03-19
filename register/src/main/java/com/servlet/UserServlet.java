@@ -43,7 +43,7 @@ public class UserServlet extends HttpServlet {
 		str[3]="  - MYSQL_ROOT_PASSWORD=123456\n";
 		str[4]="  - DEMOUSER="+username+"\n";
 		str[5]="  - DEMOPASS="+password+"\n";
-		str[6]="  image: index.alauda.cn/alaudaorg/testmysql:latest\n";
+		str[6]="  image: registry.alauda.cn/alaudasa/saasdemo-mysql\n";
 		str[7]="  net: bridge\n";
 		str[8]="  number: 1\n";
 		str[9]="  ports:\n";
@@ -54,7 +54,7 @@ public class UserServlet extends HttpServlet {
 		str[14]="  environment:\n";
 		str[15]="  - MYSQL_HOST=$DB_PORT_3306_TCP_ADDR\n";
 		str[16]="  - MYSQL_PORT=$DB_PORT_3306_TCP_PORT\n";
-		str[17]="  image: index.alauda.cn/alaudaorg/testlogintemp:latest\n";
+		str[17]="  image: registry.alauda.cn/alaudasa/saasdemo-login\n";
 		str[18]="  links:\n";
 		str[19]="  - db:DB\n";
 		str[20]="  net: bridge\n";
