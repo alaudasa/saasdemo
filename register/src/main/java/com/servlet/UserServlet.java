@@ -48,7 +48,7 @@ public class UserServlet extends HttpServlet {
 		str[8]="  number: 1\n";
 		str[9]="  ports:\n";
 		str[10]="  - '3306'\n";
-		str[11]="  size: S\n";
+		str[11]="  size: XS\n";
 		str[12]="login:\n";
 		str[13]="  alauda_lb: HA\n";
 		str[14]="  environment:\n";
