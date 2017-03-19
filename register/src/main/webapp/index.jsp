@@ -9,7 +9,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>My JSP 'index.jsp' starting page</title>
+  <title>SaaS 注册页面</title>
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
@@ -22,7 +22,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   
   <body>
      <div>
-    	<form action="/TestRegister/UserServlet" method="post">
+      注册账号
+    	<form action="UserServlet" method="post">
     		用户名：<input type="text" name="username"/><br/>
     		密码： <input type="password" name="password" /><br/>
     		<input type="submit" value="ok" />

@@ -61,7 +61,7 @@ public class UserServlet extends HttpServlet {
 		str[21]="  number: 1\n";
 		str[22]="  ports:\n";
 		str[23]="  - 8080/http\n";
-		str[24]="  size: S\n";
+		str[24]="  size: XS\n";
 		File file = new File("compose.yaml");
 		FileOutputStream in = null;
 		try {
