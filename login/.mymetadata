@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module
+  type="WEB"
+  name="TestLogin"
+  id="myeclipse.1489631016841"
+  context-root="/TestLogin"
+  j2ee-spec="5.0"
+  archive="TestLogin.war">
+  <attributes>
+    <attribute name="webrootdir" value="WebRoot" />
+  </attributes>
+</project-module>
+
