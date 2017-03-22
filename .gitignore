@@ -1,2 +1,6 @@
 register/target
+register/.settings
+register/WebRoot
 login/target
+login/.settings
+login/WebRoot

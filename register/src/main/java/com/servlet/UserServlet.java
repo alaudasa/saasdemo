@@ -35,33 +35,33 @@ public class UserServlet extends HttpServlet {
 		String password = rq.getParameter("password");
 		System.out.println(username + "+++++++++++++++++++++++++++++");
 		System.out.println(password + "+++++++++++++++++++++++++++++");
-		
-		String[] str = new String [25];
-		str[0]="db:\n";
-		str[1]="  alauda_lb: HA\n";
-		str[2]="  environment:\n";
-		str[3]="  - MYSQL_ROOT_PASSWORD=123456\n";
-		str[4]="  - DEMOUSER="+username+"\n";
-		str[5]="  - DEMOPASS="+password+"\n";
-		str[6]="  image: registry.alauda.cn/alaudasa/saasdemo-mysql\n";
-		str[7]="  net: bridge\n";
-		str[8]="  number: 1\n";
-		str[9]="  ports:\n";
-		str[10]="  - '3306'\n";
-		str[11]="  size: XS\n";
-		str[12]="login:\n";
-		str[13]="  alauda_lb: HA\n";
-		str[14]="  environment:\n";
-		str[15]="  - MYSQL_HOST=$DB_PORT_3306_TCP_ADDR\n";
-		str[16]="  - MYSQL_PORT=$DB_PORT_3306_TCP_PORT\n";
-		str[17]="  image: registry.alauda.cn/alaudasa/saasdemo-login\n";
-		str[18]="  links:\n";
-		str[19]="  - db:DB\n";
-		str[20]="  net: bridge\n";
-		str[21]="  number: 1\n";
-		str[22]="  ports:\n";
-		str[23]="  - 8080/http\n";
-		str[24]="  size: XS\n";
+
+		String[] str = new String[25];
+		str[0] = "db:\n";
+		str[1] = "  alauda_lb: HA\n";
+		str[2] = "  environment:\n";
+		str[3] = "  - MYSQL_ROOT_PASSWORD=123456\n";
+		str[4] = "  - DEMOUSER=" + username + "\n";
+		str[5] = "  - DEMOPASS=" + password + "\n";
+		str[6] = "  image: registry.alauda.cn/alaudasa/saasdemo-mysql\n";
+		str[7] = "  net: bridge\n";
+		str[8] = "  number: 1\n";
+		str[9] = "  ports:\n";
+		str[10] = "  - '3306'\n";
+		str[11] = "  size: XS\n";
+		str[12] = "login:\n";
+		str[13] = "  alauda_lb: HA\n";
+		str[14] = "  environment:\n";
+		str[15] = "  - MYSQL_HOST=$DB_PORT_3306_TCP_ADDR\n";
+		str[16] = "  - MYSQL_PORT=$DB_PORT_3306_TCP_PORT\n";
+		str[17] = "  image: registry.alauda.cn/alaudasa/saasdemo-login\n";
+		str[18] = "  links:\n";
+		str[19] = "  - db:DB\n";
+		str[20] = "  net: bridge\n";
+		str[21] = "  number: 1\n";
+		str[22] = "  ports:\n";
+		str[23] = "  - 8080/http\n";
+		str[24] = "  size: XS\n";
 		File file = new File("compose.yaml");
 		FileOutputStream in = null;
 		try {
@@ -70,41 +70,43 @@ public class UserServlet extends HttpServlet {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-        for(int i=0;i<25;i++){
-        	byte bt[] = new byte[1024];  
-            bt = str[i].getBytes(); 
-                try {  
-                    in.write(bt, 0, bt.length);  
-                } catch (IOException e) {  
-                    // TODO Auto-generated catch block  
-                    e.printStackTrace();  
-                }  
-        }
-            
-                    try {
-						in.close();
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}  
-		
-        Map<String, String> map = System.getenv();
-        String token = map.get("TOKEN");
+		for (int i = 0; i < 25; i++) {
+			byte bt[] = new byte[1024];
+			bt = str[i].getBytes();
+			try {
+				in.write(bt, 0, bt.length);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+		try {
+			in.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		Map<String, String> map = System.getenv();
+		String token = map.get("TOKEN");
+		String namespace = map.get("NAMESPACE");
+		String cluster = map.get("CLUSTER");
 		HttpClient httpclient = new DefaultHttpClient();
-		String url = "https://api.alauda.cn/v1/applications/alaudademo01";
+		String url = "https://api.alauda.cn/v1/applications/" + namespace;
 		HttpPost httpPost = new HttpPost(url);
 		httpPost.setHeader("user-agent",
 				"Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1;)");
 		// httpPost.setHeader("Content-Type", "multipart/form-data");
 		httpPost.setHeader("Authorization", token);
-		FileBody fileBody = new FileBody(new File(
-				"compose.yaml"));
+		FileBody fileBody = new FileBody(new File("compose.yaml"));
 		MultipartEntity mutiEntity = new MultipartEntity(
 				HttpMultipartMode.BROWSER_COMPATIBLE);
+        String app_name = "testDemo" + (int) (Math.random() * 100);
 		try {
 			mutiEntity.addPart("services", fileBody);
-			mutiEntity.addPart("app_name", new StringBody("testDemo"+(int) (Math.random() * 100)));
-			mutiEntity.addPart("region", new StringBody("alaudademo01baidu"));
+			mutiEntity.addPart("app_name", new StringBody(app_name));
+			mutiEntity.addPart("region", new StringBody(cluster));
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
@@ -120,7 +122,20 @@ public class UserServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 		System.out.println(content);
-		
+		try {
+			for (int i = 0; i < 6; i++) {
+//				resp.getWriter().println("creating application, please wait ...");
+//				resp.getWriter().flush();
+				Thread.sleep(1000 * 10);
+			}
+			
+			resp.getWriter().println("Login URL is: http://login."+app_name+"-"+namespace+".myalauda.cn");
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	public void doGet(HttpServletRequest rq, HttpServletResponse resp) {
